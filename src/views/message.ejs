@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function sendMessage() {
+            const message = document.getElementById("message").value;
+            socket.emit("sendMessage", message);
+            document.getElementById("message").value = "";
+        }
+
+        socket.on("receiveMessage", (msg) => {
+            const messages = document.getElementById("messages");
+            const newMessage = document.createElement("li");
+            newMessage.textContent = msg;
+            messages.appendChild(newMessage);
+        });
+    </script>
+</head>
+<body>
+<h1>Trang chủ</h1>
+
+<% if (success_msg) { %>
+    <p style="color: green;"><%= success_msg %></p>
+<% } %>
+
+<input type="text" id="message" placeholder="Nhập tin nhắn">
+<button onclick="sendMessage()">Gửi</button>
+
+<ul id="messages"></ul>
+</body>
+</html>
